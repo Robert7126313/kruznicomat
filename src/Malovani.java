@@ -32,16 +32,20 @@ public class Malovani extends JFrame {
         //PŘIDÁNÍ TLAČÍTEK ZMĚNY VYKRESLEOVÁNÍ GEOMETRICKÝCH OBRAZCŮ
         JRadioButton circleTool = new JRadioButton("Kružnice", true);
         JRadioButton ellipseTool = new JRadioButton("Elipsa");
+        JRadioButton squareTool = new JRadioButton("Čtverec");
 
         ButtonGroup tools = new ButtonGroup();
         tools.add(circleTool);
         tools.add(ellipseTool);
+        tools.add(squareTool);
 
         topPanel.add(circleTool);
         topPanel.add(ellipseTool);
+        topPanel.add(squareTool);
 
         circleTool.addActionListener(e -> drawPanel.setTool(Tool.CIRCLE));
         ellipseTool.addActionListener(e -> drawPanel.setTool(Tool.ELLIPSE));
+        squareTool.addActionListener(e -> drawPanel.setTool(Tool.SQUARE));
 
     }
 }
