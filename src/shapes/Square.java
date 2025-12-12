@@ -1,5 +1,9 @@
+package shapes;
+
 public class Square {
-    final int x, y, size;
+    public final int x;
+    public final int y;
+    public final int size;
 
     public Square(int x, int y, int size){
         this.x = x;

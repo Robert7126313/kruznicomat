@@ -1,5 +1,10 @@
+package shapes;
+
 public class Ellipse {
-    final int x, y, width, height;
+    public final int x;
+    public final int y;
+    public final int width;
+    public final int height;
 
     public Ellipse(int x, int y, int width, int height){
         this.x = x;
