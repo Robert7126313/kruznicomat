@@ -18,8 +18,17 @@ public class DrawPanel extends JPanel {
     private final List<Square> squares = new ArrayList<>();
     private final List<BezierCurve> beziers = new ArrayList<>();
 
+
+
+
     //změna barvy obrazce
-    private final Color currentColor = Color.MAGENTA;
+    private Color currentColor = Color.BLACK;
+
+    public void setCurrentColor(Color color) {
+        if (color != null) {
+            this.currentColor = color;
+        }
+    }
 
     // dočasně rozpracované body (0–4 body)
     private final List<Point> bezierPoints = new ArrayList<>();

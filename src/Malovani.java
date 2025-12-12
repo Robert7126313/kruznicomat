@@ -51,6 +51,14 @@ public class Malovani extends JFrame {
         squareTool.addActionListener(e -> drawPanel.setTool(Tool.SQUARE));
         bezierTool.addActionListener(e -> drawPanel.setTool(Tool.BEZIER));
 //--------------------------------------------------------------------
+        //Přidání změny barvy
+        JButton colorButton = new JButton("Změnit barvu");
+        topPanel.add(colorButton);
+        colorButton.addActionListener(e -> {
+            Color newColor = JColorChooser.showDialog(this, "Vyber barvu", drawPanel.getForeground());
+            drawPanel.setCurrentColor(newColor);
+        });
+//--------------------------------------------------------------------
 
     }
 }
