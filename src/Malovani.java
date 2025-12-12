@@ -33,19 +33,24 @@ public class Malovani extends JFrame {
         JRadioButton circleTool = new JRadioButton("Kružnice", true);
         JRadioButton ellipseTool = new JRadioButton("Elipsa");
         JRadioButton squareTool = new JRadioButton("Čtverec");
+        JRadioButton bezierTool = new JRadioButton("Bézierova křivka");
 
         ButtonGroup tools = new ButtonGroup();
         tools.add(circleTool);
         tools.add(ellipseTool);
         tools.add(squareTool);
+        tools.add(bezierTool);
 
         topPanel.add(circleTool);
         topPanel.add(ellipseTool);
         topPanel.add(squareTool);
+        topPanel.add(bezierTool);
 
         circleTool.addActionListener(e -> drawPanel.setTool(Tool.CIRCLE));
         ellipseTool.addActionListener(e -> drawPanel.setTool(Tool.ELLIPSE));
         squareTool.addActionListener(e -> drawPanel.setTool(Tool.SQUARE));
+        bezierTool.addActionListener(e -> drawPanel.setTool(Tool.BEZIER));
+//--------------------------------------------------------------------
 
     }
 }
