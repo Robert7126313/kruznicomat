@@ -1,3 +1,8 @@
+import shapes.BezierCurve;
+import shapes.Circle;
+import shapes.Ellipse;
+import shapes.Square;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -7,10 +12,14 @@ import java.util.List;
 
 // panel který bude uchovávat nakreslené kružnice
 public class DrawPanel extends JPanel {
-    //seznam všech kružnic
+    //seznam všech kružnic, ellips, čtverců a Bézierových křivek
     private final List<Circle> circles = new ArrayList<>();
     private final List<Ellipse> ellipses = new ArrayList<>();
     private final List<Square> squares = new ArrayList<>();
+    private final List<BezierCurve> beziers = new ArrayList<>();
+
+    // dočasně rozpracované body (0–4 body)
+    private final List<Point> bezierPoints = new ArrayList<>();
 
     private Tool currentTool = Tool.CIRCLE; //defaultní nástroj/geometrický obrazec
 
@@ -32,6 +41,7 @@ public class DrawPanel extends JPanel {
                     case CIRCLE -> addCircle(e.getX(), e.getY());
                     case ELLIPSE -> addEllipse(e.getX(), e.getY());
                     case SQUARE -> addSquare(e.getX(), e.getY());
+                    case BEZIER -> addBezierPoint(e.getX(), e.getY());
                 }
 //                addCircle(e.getX(),e.getY());
             }
@@ -93,6 +103,23 @@ public class DrawPanel extends JPanel {
         });
     }
 
+    private void addBezierPoint(int x, int y) {
+        bezierPoints.add(new Point(x, y));
+
+        if (bezierPoints.size() == 4) {
+            beziers.add(new BezierCurve(
+                    bezierPoints.get(0),
+                    bezierPoints.get(1),
+                    bezierPoints.get(2),
+                    bezierPoints.get(3)
+            ));
+            bezierPoints.clear(); // začneme novou křivku
+        }
+
+        repaint();
+    }
+
+
 
     public void clear() {
         circles.clear();
@@ -100,6 +127,25 @@ public class DrawPanel extends JPanel {
         squares.clear();
         repaint();
     }
+
+    private Point bezierPoint(Point p0, Point p1, Point p2, Point p3, double t) {
+        double u = 1.0 - t;
+
+        double x =
+                (u*u*u) * p0.x +
+                        (3*u*u*t) * p1.x +
+                        (3*u*t*t) * p2.x +
+                        (t*t*t) * p3.x;
+
+        double y =
+                (u*u*u) * p0.y +
+                        (3*u*u*t) * p1.y +
+                        (3*u*t*t) * p2.y +
+                        (t*t*t) * p3.y;
+
+        return new Point((int)Math.round(x), (int)Math.round(y));
+    }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -121,6 +167,31 @@ public class DrawPanel extends JPanel {
         for (Square s : squares) {
             graphics2D.drawRect(s.x, s.y, s.size, s.size);
         }
+
+        //BEZIEROVY KŘIVKY---------------------------------
+
+        for (Point p : bezierPoints) {
+            graphics2D.fillOval(p.x - 3, p.y - 3, 6, 6);
+        }
+
+        for (BezierCurve b : beziers) {
+            Point prev = b.p0;
+            int steps = 100;
+
+            for (int i = 1; i <= steps; i++) {
+                double t = i / (double) steps;
+                Point cur = bezierPoint(b.p0, b.p1, b.p2, b.p3, t);
+                graphics2D.drawLine(prev.x, prev.y, cur.x, cur.y);
+                prev = cur;
+            }
+        }
+        graphics2D.setColor(Color.LIGHT_GRAY);
+        for (BezierCurve b : beziers) {
+            graphics2D.drawLine(b.p0.x, b.p0.y, b.p1.x, b.p1.y);
+            graphics2D.drawLine(b.p1.x, b.p1.y, b.p2.x, b.p2.y);
+            graphics2D.drawLine(b.p2.x, b.p2.y, b.p3.x, b.p3.y);
+        }
+//--------------------------------------------------
 
 
 
