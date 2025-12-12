@@ -18,6 +18,16 @@ public class DrawPanel extends JPanel {
     private final List<Square> squares = new ArrayList<>();
     private final List<BezierCurve> beziers = new ArrayList<>();
 
+    //změna barvy obrazce
+    private Color currentColor = Color.RED;
+
+    public void setCurrentColor(Color color) {
+        if (color != null) {
+            this.currentColor = color;
+        }
+    }
+
+
     // dočasně rozpracované body (0–4 body)
     private final List<Point> bezierPoints = new ArrayList<>();
 
@@ -59,7 +69,14 @@ public class DrawPanel extends JPanel {
             if(topFrame instanceof Malovani owner){
                 String text = owner.diameterField.getText().trim();
                 int diameter = Integer.parseInt(text);
-                circles.add(new Circle(x - diameter / 2, y-diameter / 2, diameter));
+
+                circles.add(new Circle(
+                        x - diameter / 2,
+                        y-diameter / 2,
+                        diameter,
+                        currentColor
+                ));
+
                 repaint();
             }
         });
@@ -79,7 +96,8 @@ public class DrawPanel extends JPanel {
                     x - width / 2,
                     y - height / 2,
                     width,
-                    height
+                    height,
+                    currentColor
             ));
 
             repaint();
@@ -96,7 +114,8 @@ public class DrawPanel extends JPanel {
                 squares.add(new Square(
                         x - size / 2,
                         y - size / 2,
-                        size
+                        size,
+                        currentColor
                 ));
                 repaint();
             }
@@ -111,7 +130,8 @@ public class DrawPanel extends JPanel {
                     bezierPoints.get(0),
                     bezierPoints.get(1),
                     bezierPoints.get(2),
-                    bezierPoints.get(3)
+                    bezierPoints.get(3),
+                    currentColor
             ));
             bezierPoints.clear(); // začneme novou křivku
         }
@@ -152,20 +172,20 @@ public class DrawPanel extends JPanel {
         super.paintComponent(g);
 
         Graphics2D graphics2D = (Graphics2D) g.create();
-        graphics2D.setColor(Color.BLUE);
+        graphics2D.setColor(currentColor);
 
         //kreslení obrazců
 
         for (Circle c: circles) {
-            graphics2D.drawOval(c.x,c.y,c.diameter,c.diameter);
+            graphics2D.drawOval(c.getX(), c.getY(), c.getDiameter(), c.getDiameter());
         }
 
         for (Ellipse e : ellipses) {
-            graphics2D.drawOval(e.x, e.y, e.width, e.height);
+            graphics2D.drawOval(e.getX(), e.getY(), e.getWidth(), e.getHeight());
         }
 
         for (Square s : squares) {
-            graphics2D.drawRect(s.x, s.y, s.size, s.size);
+            graphics2D.drawRect(s.getX(), s.getY(), s.getSize(), s.getSize());
         }
 
         //BEZIEROVY KŘIVKY---------------------------------
@@ -175,21 +195,21 @@ public class DrawPanel extends JPanel {
         }
 
         for (BezierCurve b : beziers) {
-            Point prev = b.p0;
+            Point prev = b.getP0();
             int steps = 100;
 
             for (int i = 1; i <= steps; i++) {
                 double t = i / (double) steps;
-                Point cur = bezierPoint(b.p0, b.p1, b.p2, b.p3, t);
+                Point cur = bezierPoint(b.getP0(), b.getP1(), b.getP2(), b.getP3(), t);
                 graphics2D.drawLine(prev.x, prev.y, cur.x, cur.y);
                 prev = cur;
             }
         }
         graphics2D.setColor(Color.LIGHT_GRAY);
         for (BezierCurve b : beziers) {
-            graphics2D.drawLine(b.p0.x, b.p0.y, b.p1.x, b.p1.y);
-            graphics2D.drawLine(b.p1.x, b.p1.y, b.p2.x, b.p2.y);
-            graphics2D.drawLine(b.p2.x, b.p2.y, b.p3.x, b.p3.y);
+            graphics2D.drawLine(b.getP0().x, b.getP0().y, b.getP1().x, b.getP1().y); //nahrazeno gettery
+            graphics2D.drawLine(b.getP1().x, b.getP1().y, b.getP2().x, b.getP2().y);
+            graphics2D.drawLine(b.getP2().x, b.getP2().y, b.getP3().x, b.getP3().y);
         }
 //--------------------------------------------------
 
