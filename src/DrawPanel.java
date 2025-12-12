@@ -30,6 +30,10 @@ public class DrawPanel extends JPanel {
         }
     }
 
+    public Color getCurrentColor() {
+        return currentColor;
+    }
+
     // dočasně rozpracované body (0–4 body)
     private final List<Point> bezierPoints = new ArrayList<>();
 
@@ -226,4 +230,6 @@ public class DrawPanel extends JPanel {
 
         graphics2D.dispose();
     }
+
+
 }

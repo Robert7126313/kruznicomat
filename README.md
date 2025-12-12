@@ -1,5 +1,5 @@
 # Možná a zajímavá rozšíření
-1. Výběr barvy kružnice **PRACUJI NA TOM**
+1. Výběr barvy kružnice **HOTOVO**
 2. SpinBox na velikost kružnice
 3. Funkce zpět
 4. Když klepnu pravým tlačítkem myši, mám kružnici vyplněnou
