@@ -40,5 +40,8 @@ public class Malovani extends JFrame {
         topPanel.add(circleTool);
         topPanel.add(ellipseTool);
 
+        circleTool.addActionListener(e -> drawPanel.setTool(Tool.CIRCLE));
+        ellipseTool.addActionListener(e -> drawPanel.setTool(Tool.ELLIPSE));
+
     }
 }
