@@ -75,7 +75,8 @@ public class DrawPanel extends JPanel {
                 circles.add(new Circle(
                         x - diameter / 2,
                         y-diameter / 2,
-                        diameter
+                        diameter,
+                        currentColor
                 ));
 
                 repaint();
@@ -97,7 +98,8 @@ public class DrawPanel extends JPanel {
                     x - width / 2,
                     y - height / 2,
                     width,
-                    height
+                    height,
+                    currentColor
             ));
 
             repaint();
@@ -114,7 +116,8 @@ public class DrawPanel extends JPanel {
                 squares.add(new Square(
                         x - size / 2,
                         y - size / 2,
-                        size
+                        size,
+                        currentColor
                 ));
                 repaint();
             }
@@ -129,7 +132,8 @@ public class DrawPanel extends JPanel {
                     bezierPoints.get(0),
                     bezierPoints.get(1),
                     bezierPoints.get(2),
-                    bezierPoints.get(3)
+                    bezierPoints.get(3),
+                    currentColor
             ));
             bezierPoints.clear(); // začneme novou křivku
         }
@@ -172,29 +176,34 @@ public class DrawPanel extends JPanel {
         super.paintComponent(g);
 
         Graphics2D graphics2D = (Graphics2D) g.create();
-        graphics2D.setColor(currentColor);
+        //graphics2D.setColor(currentColor);
 
         //kreslení obrazců
 
         for (Circle c: circles) {
+            graphics2D.setColor(c.getColor());
             graphics2D.drawOval(c.getX(), c.getY(), c.getDiameter(), c.getDiameter());
         }
 
         for (Ellipse e : ellipses) {
+            graphics2D.setColor(e.getColor());
             graphics2D.drawOval(e.getX(), e.getY(), e.getWidth(), e.getHeight());
         }
 
         for (Square s : squares) {
+            graphics2D.setColor(s.getColor());
             graphics2D.drawRect(s.getX(), s.getY(), s.getSize(), s.getSize());
         }
 
         //BEZIEROVY KŘIVKY---------------------------------
 
         for (Point p : bezierPoints) {
+            graphics2D.setColor(Color.RED);
             graphics2D.fillOval(p.x - 3, p.y - 3, 6, 6);
         }
 
         for (BezierCurve b : beziers) {
+            graphics2D.setColor(b.getColor());
             Point prev = b.getP0();
             int steps = 100;
 

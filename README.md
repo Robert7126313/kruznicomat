@@ -1,13 +1,13 @@
 # Možná a zajímavá rozšíření
-1. Výběr barvy kružnice
+1. Výběr barvy kružnice **PRACUJI NA TOM**
 2. SpinBox na velikost kružnice
 3. Funkce zpět
 4. Když klepnu pravým tlačítkem myši, mám kružnici vyplněnou
 5. Při drag-and-drop nastavit velikost kružnice
 6. Přidat další nástroje
-   1. Elipsa (nejen kružnice).
-   2. Polygon – možnost klikáním vytvářet vlastní tvary.
-   3. Křivky – Beziérovy spliny.
+   1. Elipsa (nejen kružnice). **HOTOVO**
+   2. Polygon – možnost klikáním vytvářet vlastní tvary. **ZATÍM JEN ČTVEREC**
+   3. Křivky – Beziérovy spliny. **HOTOVO**
    4. Nástroj pro text – vložení textu do obrázku.
    5. Nástroj gumy (pro pixelový i vektorový styl, podle typu tvé aplikace).
 7. Ukládání obrázku
