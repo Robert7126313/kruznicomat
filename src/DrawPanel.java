@@ -19,7 +19,7 @@ public class DrawPanel extends JPanel {
     private final List<BezierCurve> beziers = new ArrayList<>();
 
     //změna barvy obrazce
-    private Color currentColor = Color.RED;
+    private Color currentColor = Color.MAGENTA;
 
     public void setCurrentColor(Color color) {
         if (color != null) {
@@ -145,6 +145,8 @@ public class DrawPanel extends JPanel {
         circles.clear();
         ellipses.clear();
         squares.clear();
+        beziers.clear();
+        bezierPoints.clear();
         repaint();
     }
 
