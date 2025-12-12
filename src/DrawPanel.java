@@ -19,14 +19,7 @@ public class DrawPanel extends JPanel {
     private final List<BezierCurve> beziers = new ArrayList<>();
 
     //změna barvy obrazce
-    private Color currentColor = Color.MAGENTA;
-
-    public void setCurrentColor(Color color) {
-        if (color != null) {
-            this.currentColor = color;
-        }
-    }
-
+    private final Color currentColor = Color.MAGENTA;
 
     // dočasně rozpracované body (0–4 body)
     private final List<Point> bezierPoints = new ArrayList<>();
@@ -73,8 +66,7 @@ public class DrawPanel extends JPanel {
                 circles.add(new Circle(
                         x - diameter / 2,
                         y-diameter / 2,
-                        diameter,
-                        currentColor
+                        diameter
                 ));
 
                 repaint();
@@ -96,8 +88,7 @@ public class DrawPanel extends JPanel {
                     x - width / 2,
                     y - height / 2,
                     width,
-                    height,
-                    currentColor
+                    height
             ));
 
             repaint();
@@ -114,8 +105,7 @@ public class DrawPanel extends JPanel {
                 squares.add(new Square(
                         x - size / 2,
                         y - size / 2,
-                        size,
-                        currentColor
+                        size
                 ));
                 repaint();
             }
@@ -130,8 +120,7 @@ public class DrawPanel extends JPanel {
                     bezierPoints.get(0),
                     bezierPoints.get(1),
                     bezierPoints.get(2),
-                    bezierPoints.get(3),
-                    currentColor
+                    bezierPoints.get(3)
             ));
             bezierPoints.clear(); // začneme novou křivku
         }

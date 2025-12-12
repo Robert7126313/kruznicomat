@@ -8,7 +8,7 @@ public class BezierCurve {
     private final Point p2;
     private final Point p3;
 
-    public BezierCurve(Point p0, Point p1, Point p2, Point p3, Color color) {
+    public BezierCurve(Point p0, Point p1, Point p2, Point p3) {
         this.p0 = p0;
         this.p1 = p1;
         this.p2 = p2;
