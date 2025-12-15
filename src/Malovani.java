@@ -74,18 +74,20 @@ public class Malovani extends JFrame {
                 colorPreview.repaint();
             }
         });
-//--------------------------------------------------------------------
-    //Přidání zobrazení souřadnic myši
-       JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); //lepší zarovnání
-       JLabel coordsLabel = new JLabel("x: -, y: -");
-       statusPanel.add(coordsLabel);
-       add(statusPanel, BorderLayout.SOUTH);
+//-------------------------------Přidání zobrazení souřadnic myši-------------------------------------
 
+        //vytvornění panelu se souřadnicemi
+        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        statusPanel.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 8)); //padding panelu
 
-    //JLabel coordsLabel = new JLabel("x: -, y: -");
-    //add(coordsLabel, BorderLayout.SOUTH); //původní umístění
+        //labela se souřadnicemi
+        JLabel coordsLabel = new JLabel("x: -, y: -");
+        statusPanel.add(coordsLabel);
 
+        //přidání panelu do okna
+        add(statusPanel, BorderLayout.SOUTH);
         drawPanel.setCoordsLabel(coordsLabel);
+
 //--------------------------------------------------------------------
 
     }
