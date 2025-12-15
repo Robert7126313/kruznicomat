@@ -1,5 +1,5 @@
 # Možná a zajímavá rozšíření
-1. Výběr barvy kružnice **HOTOVO**
+1. Výběr barvy kružnice **HOTOVO** + náhled barvy
 2. SpinBox na velikost kružnice
 3. Funkce zpět
 4. Když klepnu pravým tlačítkem myši, mám kružnici vyplněnou
@@ -19,7 +19,7 @@
 
 # Všeobecné rozšíření
 1. Zachytávání na mřížku (snap-to-grid) – objekty se zarovnají na nejbližší grid. 
-2. Zobrazování náhledového „ducha“ objektu při kreslení (preview tvaru, než se potvrdí).
+2. Zobrazování náhledového „ducha“ objektu při kreslení (preview tvaru, než se potvrdí). **HOTOVO**
 3. Výběr objektu a jeho následná editace – změna velikosti, barvy, posunutí.
 4. Skupinové označení objektů – výběrový rámeček (drag to select).
 5. Mazání objektu klávesou Delete.
