@@ -130,8 +130,12 @@ public class DrawPanel extends JPanel {
         SwingUtilities.invokeLater(() ->{
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             if(topFrame instanceof Malovani owner){
-                String text = owner.diameterField.getText().trim();
-                int diameter = Integer.parseInt(text);
+//                String text = owner.diameterField.getText().trim();
+//                int diameter = Integer.parseInt(text);
+
+                int diameter = (Integer) owner.sizeSpinner.getValue();
+
+
 
                 circles.add(new Circle(
                         x - diameter / 2,
@@ -150,8 +154,10 @@ public class DrawPanel extends JPanel {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame instanceof Malovani owner) {
 
-            String text = owner.diameterField.getText().trim();
-            int diameter = Integer.parseInt(text);
+//            String text = owner.diameterField.getText().trim();
+//            int diameter = Integer.parseInt(text);
+
+            int diameter = (Integer) owner.sizeSpinner.getValue();
 
             int width = diameter;
             int height = diameter / 2;
@@ -173,8 +179,10 @@ public class DrawPanel extends JPanel {
         SwingUtilities.invokeLater(() -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             if (topFrame instanceof Malovani owner) {
-                String text = owner.diameterField.getText().trim();
-                int size = Integer.parseInt(text);
+//                String text = owner.diameterField.getText().trim();
+//                int size = Integer.parseInt(text);
+                int size = (Integer) owner.sizeSpinner.getValue(); // velikost čtverce
+
 
                 squares.add(new Square(
                         x - size / 2,
@@ -347,7 +355,7 @@ public class DrawPanel extends JPanel {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame instanceof Malovani owner) {
             try {
-                return Math.max(1, Integer.parseInt(owner.diameterField.getText().trim()));
+                return (Integer) owner.sizeSpinner.getValue(); //Math.max(1, Integer.parseInt(owner.diameterField.getText().trim())); //bylo nahrazeno spinnerem
             } catch (NumberFormatException e) {
                 return 50;
             }

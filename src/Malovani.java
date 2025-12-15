@@ -2,17 +2,25 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Malovani extends JFrame {
-    protected final JTextField diameterField;
+//    protected final JTextField diameterField;
     private final DrawPanel drawPanel;
     private final JButton clearButton;
+
+    protected final JSpinner sizeSpinner;
+
 
 
     public Malovani(){
         super("Kružnicomat - klikni a kresli");
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.add(new JLabel("Průměr v px: "));
-        diameterField = new JTextField("50",5);
-        topPanel.add(diameterField);
+//        diameterField = new JTextField("50",5);
+//        topPanel.add(diameterField); //odstraněno, nahrazeno spinnerem
+
+        SpinnerNumberModel sizeModel = new SpinnerNumberModel(50, 1, 1000, 1);
+        sizeSpinner = new JSpinner(sizeModel);
+        topPanel.add(sizeSpinner);
+
 
         clearButton = new JButton("Vymazat");
         topPanel.add(clearButton);
@@ -36,7 +44,9 @@ public class Malovani extends JFrame {
         JRadioButton squareTool = new JRadioButton("Čtverec");
         JRadioButton bezierTool = new JRadioButton("Bézierova křivka");
 
+        topPanel.add(new JLabel("Velikost v px: "));
         ButtonGroup tools = new ButtonGroup();
+
         tools.add(circleTool);
         tools.add(ellipseTool);
         tools.add(squareTool);
