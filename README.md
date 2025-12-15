@@ -13,7 +13,7 @@
 7. Ukládání obrázku
 
 # Radim doplní
-8. Při pohybu myši zobrazovat souřadnice
+8. Při pohybu myši zobrazovat souřadnice **HOTOVO**
 9. Možnost zapnout a vypnout vodící mřížku (třeba po 10px)
 10. Umožnit v nastavení nastavit krok vodící mřížky,
 

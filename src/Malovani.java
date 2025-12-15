@@ -6,6 +6,7 @@ public class Malovani extends JFrame {
     private final DrawPanel drawPanel;
     private final JButton clearButton;
 
+
     public Malovani(){
         super("Kružnicomat - klikni a kresli");
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -73,6 +74,19 @@ public class Malovani extends JFrame {
                 colorPreview.repaint();
             }
         });
+//--------------------------------------------------------------------
+    //Přidání zobrazení souřadnic myši
+       JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); //lepší zarovnání
+       JLabel coordsLabel = new JLabel("x: -, y: -");
+       statusPanel.add(coordsLabel);
+       add(statusPanel, BorderLayout.SOUTH);
+
+
+    //JLabel coordsLabel = new JLabel("x: -, y: -");
+    //add(coordsLabel, BorderLayout.SOUTH); //původní umístění
+
+        drawPanel.setCoordsLabel(coordsLabel);
+//--------------------------------------------------------------------
 
     }
 }

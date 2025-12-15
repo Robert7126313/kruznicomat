@@ -19,6 +19,8 @@ public class DrawPanel extends JPanel {
     private final List<BezierCurve> beziers = new ArrayList<>();
 
     private Point mousePos = null;   // poslední pozice myši v panelu
+    private JLabel coordsLabel;
+
 
     //------------------změna barvy obrazce----------------
     private Color currentColor = Color.BLACK;
@@ -33,7 +35,6 @@ public class DrawPanel extends JPanel {
         return currentColor;
     }
     //----------------------------------------------
-
 
     //-------- dočasně rozpracované body (0–4 body)----------------
     private final List<Point> bezierPoints = new ArrayList<>();
@@ -74,6 +75,11 @@ public class DrawPanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                 mousePos = e.getPoint();
+
+                if (coordsLabel != null) {
+                    coordsLabel.setText("x: " + mousePos.x + ", y: " + mousePos.y);
+                }
+
                 repaint();
             }
         //------------------------------
@@ -81,6 +87,12 @@ public class DrawPanel extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 mousePos = e.getPoint();
+
+                if (coordsLabel != null) {
+                    coordsLabel.setText("x: " + mousePos.x + ", y: " + mousePos.y);
+                }
+
+
                 repaint();
             }
         });
@@ -90,10 +102,20 @@ public class DrawPanel extends JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
                 mousePos = null;
+
+                if (coordsLabel != null) {
+                    coordsLabel.setText("x: -, y: -");
+                }
+
+
                 repaint();
             }
         });
         //------------------------------
+    }
+
+    public void setCoordsLabel(JLabel label) {
+        this.coordsLabel = label;
     }
 
     //----- metody pro přidání jednotlivých obrazců -----
@@ -318,8 +340,6 @@ public class DrawPanel extends JPanel {
 
         graphics2D.dispose();
     }
-
-
 
 
 // bezpečné načtení průměru z textového pole-----------------
