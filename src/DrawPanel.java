@@ -58,8 +58,8 @@ public class DrawPanel extends JPanel {
                 boolean filled = SwingUtilities.isRightMouseButton(e); // pravé tlačítko pro vyplněné obrazce
                 switch (currentTool) {
                     case CIRCLE -> addCircle(e.getX(), e.getY(),filled);
-                    case ELLIPSE -> addEllipse(e.getX(), e.getY());
-                    case SQUARE -> addSquare(e.getX(), e.getY());
+                    case ELLIPSE -> addEllipse(e.getX(), e.getY(),filled);
+                    case SQUARE -> addSquare(e.getX(), e.getY(), filled);
                     case BEZIER -> addBezierPoint(e.getX(), e.getY());
                 }
 //                addCircle(e.getX(),e.getY());
@@ -155,7 +155,7 @@ public class DrawPanel extends JPanel {
     }
 
     // Přidá elipsu na zadanou pozici. Hodnota velikosti bude načtena z okna
-    private void addEllipse(int x, int y) {
+    private void addEllipse(int x, int y, boolean filled) {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame instanceof Malovani owner) {
 
@@ -172,7 +172,8 @@ public class DrawPanel extends JPanel {
                     y - height / 2,
                     width,
                     height,
-                    currentColor
+                    currentColor,
+                    filled
             ));
 
             repaint(); // překreslí panel
@@ -180,7 +181,7 @@ public class DrawPanel extends JPanel {
     }
 
     // Přidá čtverec na zadanou pozici. Hodnota velikosti bude načtena z okna
-    private void addSquare(int x, int y) {
+    private void addSquare(int x, int y, boolean filled) {
         SwingUtilities.invokeLater(() -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             if (topFrame instanceof Malovani owner) {
@@ -193,7 +194,8 @@ public class DrawPanel extends JPanel {
                         x - size / 2,
                         y - size / 2,
                         size,
-                        currentColor
+                        currentColor,
+                        filled
                 ));
                 repaint(); // překreslí panel
             }
@@ -294,15 +296,35 @@ public class DrawPanel extends JPanel {
 
         //ELIPSA---------------------------------
         for (Ellipse e : ellipses) {
-            graphics2D.setColor(e.getColor());
-            graphics2D.drawOval(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+
+            if (e.isFilled()) {
+                graphics2D.setColor(e.getColor());
+                graphics2D.fillOval(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+            } else {
+                graphics2D.setColor(e.getColor());
+                graphics2D.drawOval(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+            }
+
+//            graphics2D.setColor(e.getColor());
+//            graphics2D.drawOval(e.getX(), e.getY(), e.getWidth(), e.getHeight());
         }
 
 
         //ČTVEREC---------------------------------
         for (Square s : squares) {
-            graphics2D.setColor(s.getColor());
-            graphics2D.drawRect(s.getX(), s.getY(), s.getSize(), s.getSize());
+
+            if (s.isFilled())
+            {
+                graphics2D.setColor(s.getColor());
+                graphics2D.fillRect(s.getX(), s.getY(), s.getSize(), s.getSize());
+                continue;
+            } else {
+                graphics2D.setColor(s.getColor());
+                graphics2D.drawRect(s.getX(), s.getY(), s.getSize(), s.getSize());
+            }
+
+//            graphics2D.setColor(s.getColor());
+//            graphics2D.drawRect(s.getX(), s.getY(), s.getSize(), s.getSize());
         }
 
         //BEZIEROVY KŘIVKY---------------------------------
