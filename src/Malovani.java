@@ -99,6 +99,13 @@ public class Malovani extends JFrame {
         drawPanel.setCoordsLabel(coordsLabel);
 
 //--------------------------------------------------------------------
+// Přidání mřížky
+        JCheckBox gridCheck = new JCheckBox("Mřížka");
+        topPanel.add(gridCheck);
+
+        gridCheck.addActionListener(e -> drawPanel.setShowGrid(gridCheck.isSelected()));
+
+setVisible(true);
 
     }
 }

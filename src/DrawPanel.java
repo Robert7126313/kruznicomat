@@ -180,7 +180,7 @@ public class DrawPanel extends JPanel {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             if (topFrame instanceof Malovani owner) {
 //                String text = owner.diameterField.getText().trim();
-//                int size = Integer.parseInt(text);
+//                int size = Integer.parseInt(text); //nahrazeno spinnerem
                 int size = (Integer) owner.sizeSpinner.getValue(); // velikost čtverce
 
 
@@ -248,6 +248,28 @@ public class DrawPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) { //překreslovací logika, "vykreslení stavu"
         super.paintComponent(g);
+
+//--------------------------------------------------
+        // ---- kreslení mřížky ----
+        if (showGrid) {
+            int step = 10; // zatím fixně 10 px
+
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setColor(new Color(0, 0, 0, 30)); // jemná průhledná
+
+            int w = getWidth();
+            int h = getHeight();
+
+            for (int x = 0; x <= w; x += step) {
+                g2.drawLine(x, 0, x, h);
+            }
+            for (int y = 0; y <= h; y += step) {
+                g2.drawLine(0, y, w, y);
+            }
+
+            g2.dispose();
+        }
+// --------------------------------------------------
 
         Graphics2D graphics2D = (Graphics2D) g.create();
         //graphics2D.setColor(currentColor); //nastavení barvy pro kreslení - zkouška
@@ -362,6 +384,15 @@ public class DrawPanel extends JPanel {
         }
         return 50;
     }
+//--------------------------------------------------
+//--------------------ZOBRAZENÍ MŘÍŽKY-----------------------
+    private boolean showGrid = false;
+
+    public void setShowGrid(boolean show) {
+        this.showGrid = show;
+        repaint();
+    }
+
 //--------------------------------------------------
 
 
