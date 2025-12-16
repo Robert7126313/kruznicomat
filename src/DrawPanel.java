@@ -252,7 +252,7 @@ public class DrawPanel extends JPanel {
 //--------------------------------------------------
         // ---- kreslení mřížky ----
         if (showGrid) {
-            int step = 10; // zatím fixně 10 px
+            int step = gridStep; //dynamický krok mřížky
 
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setColor(new Color(0, 0, 0, 30)); // jemná průhledná
@@ -386,6 +386,12 @@ public class DrawPanel extends JPanel {
     }
 //--------------------------------------------------
 //--------------------ZOBRAZENÍ MŘÍŽKY-----------------------
+    private int gridStep = 10;
+    public void setGridStep(int step) {
+        this.gridStep = Math.max(1, step);
+        repaint();
+    }
+
     private boolean showGrid = false;
 
     public void setShowGrid(boolean show) {

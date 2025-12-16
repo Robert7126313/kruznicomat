@@ -105,7 +105,20 @@ public class Malovani extends JFrame {
 
         gridCheck.addActionListener(e -> drawPanel.setShowGrid(gridCheck.isSelected()));
 
-setVisible(true);
+    setVisible(true);
+
+    //--------------------------------------------------------------------
+        // Přidání nastavení kroku mřížky
+        SpinnerNumberModel gridModel = new SpinnerNumberModel(10, 1, 200, 1);
+        JSpinner gridSpinner = new JSpinner(gridModel);
+
+        topPanel.add(new JLabel("Krok mřížky:"));
+        topPanel.add(gridSpinner);
+
+        gridSpinner.addChangeListener(e ->
+                drawPanel.setGridStep((Integer) gridSpinner.getValue())
+        );
+        //--------------------------------------------------------------------
 
     }
 }
