@@ -1,77 +1,64 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class Malovani extends JFrame {
-//    protected final JTextField diameterField;
     private final DrawPanel drawPanel;
-    private final JButton clearButton;
 
+    // Spinner na velikost (px) – používá se ve DrawPanel přes owner.sizeSpinner.getValue()
     protected final JSpinner sizeSpinner;
 
-
-
-    public Malovani(){
+    public Malovani() {
         super("Kružnicomat - klikni a kresli");
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topPanel.add(new JLabel("Průměr v px: "));
-//        diameterField = new JTextField("50",5);
-//        topPanel.add(diameterField); //odstraněno, nahrazeno spinnerem
 
+        // ---------- Střed aplikace: kreslící panel ----------
+        drawPanel = new DrawPanel();
+
+        // ---------- HORNÍ LIŠTA: rozdělíme do 3 sekcí (vlevo / střed / vpravo) ----------
+        JPanel topPanel = new JPanel(new BorderLayout());
+
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 4));
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 4));
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 4));
+
+        topPanel.add(leftPanel, BorderLayout.WEST);
+        topPanel.add(centerPanel, BorderLayout.CENTER);
+        topPanel.add(rightPanel, BorderLayout.EAST);
+
+        // ---------- Velikost (spinner) ----------
+        // (pozn.: "průměr" je zavádějící pro čtverec, proto "Velikost")
         SpinnerNumberModel sizeModel = new SpinnerNumberModel(50, 1, 1000, 1);
         sizeSpinner = new JSpinner(sizeModel);
-        topPanel.add(sizeSpinner);
 
+        // Zúžení textového pole uvnitř spinneru (lepší UI)
+        if (sizeSpinner.getEditor() instanceof JSpinner.NumberEditor ne) {
+            ne.getTextField().setColumns(4);
+        }
 
-        clearButton = new JButton("Vymazat");
-        topPanel.add(clearButton);
+        // ---------- Výběr nástroje (JComboBox) ----------
+        JComboBox<Tool> toolCombo = new JComboBox<>(Tool.values());
+        toolCombo.setSelectedItem(Tool.CIRCLE);
 
-        drawPanel = new DrawPanel();
-        setLayout(new BorderLayout());
-        add(topPanel, BorderLayout.NORTH);
-        add(drawPanel,BorderLayout.CENTER);
+        toolCombo.addActionListener(e -> {
+            Tool selected = (Tool) toolCombo.getSelectedItem();
+            if (selected != null) drawPanel.setTool(selected);
+        });
 
-        clearButton.addActionListener(e -> drawPanel.clear());
+        // ---------- Levý panel: nástroj + velikost ----------
+        leftPanel.add(new JLabel("Nástroj:"));
+        leftPanel.add(toolCombo);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800,600);
-        setLocationRelativeTo(null);
-        setVisible(true);
+        leftPanel.add(new JLabel("Velikost (px):"));
+        leftPanel.add(sizeSpinner);
 
-//--------------------------------------------------------------------
-        //PŘIDÁNÍ TLAČÍTEK ZMĚNY VYKRESLEOVÁNÍ GEOMETRICKÝCH OBRAZCŮ
-        JRadioButton circleTool = new JRadioButton("Kružnice", true);
-        JRadioButton ellipseTool = new JRadioButton("Elipsa");
-        JRadioButton squareTool = new JRadioButton("Čtverec");
-        JRadioButton bezierTool = new JRadioButton("Bézierova křivka");
-
-        topPanel.add(new JLabel("Velikost v px: "));
-        ButtonGroup tools = new ButtonGroup();
-
-        tools.add(circleTool);
-        tools.add(ellipseTool);
-        tools.add(squareTool);
-        tools.add(bezierTool);
-
-        topPanel.add(circleTool);
-        topPanel.add(ellipseTool);
-        topPanel.add(squareTool);
-        topPanel.add(bezierTool);
-
-        circleTool.addActionListener(e -> drawPanel.setTool(Tool.CIRCLE));
-        ellipseTool.addActionListener(e -> drawPanel.setTool(Tool.ELLIPSE));
-        squareTool.addActionListener(e -> drawPanel.setTool(Tool.SQUARE));
-        bezierTool.addActionListener(e -> drawPanel.setTool(Tool.BEZIER));
-//--------------------------------------------------------------------
-        // Přidání změny barvy
+        // ---------- Barva: tlačítko + náhled ----------
         JButton colorButton = new JButton("Změnit barvu");
-        topPanel.add(colorButton);
 
-        // Náhled aktuální barvy
         JPanel colorPreview = new JPanel();
         colorPreview.setPreferredSize(new Dimension(18, 18));
         colorPreview.setBackground(Color.BLACK);
         colorPreview.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-        topPanel.add(colorPreview);
+
         colorButton.addActionListener(e -> {
             Color newColor = JColorChooser.showDialog(
                     this,
@@ -84,39 +71,33 @@ public class Malovani extends JFrame {
                 colorPreview.repaint();
             }
         });
-//-------------------------------Přidání zobrazení souřadnic myši-------------------------------------
 
-        //vytvornění panelu se souřadnicemi
-        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        statusPanel.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 8)); //padding panelu
+        // ---------- Střední panel: barva ----------
+        centerPanel.add(colorButton);
+        centerPanel.add(colorPreview);
 
-        //labela se souřadnicemi
-        JLabel coordsLabel = new JLabel("x: -, y: -");
-        statusPanel.add(coordsLabel);
-
-        //přidání panelu do okna
-        add(statusPanel, BorderLayout.SOUTH);
-        drawPanel.setCoordsLabel(coordsLabel);
-
-//--------------------------------------------------------------------
-// Přidání nastavení kroku mřížky a zobrazení mřížky
+        // ---------- Nastavení mřížky ----------
         SpinnerNumberModel gridModel = new SpinnerNumberModel(10, 1, 200, 1);
         JSpinner gridSpinner = new JSpinner(gridModel);
 
+        // Zúžení textového pole uvnitř spinneru (lepší UI)
+        if (gridSpinner.getEditor() instanceof JSpinner.NumberEditor ne2) {
+            ne2.getTextField().setColumns(3);
+        }
+
         // Snap to grid
         JCheckBox snapCheck = new JCheckBox("Snap");
-        topPanel.add(snapCheck);
 
-        topPanel.add(new JLabel("Krok mřížky:"));
-        topPanel.add(gridSpinner);
+        // Přidání mřížky
+        JCheckBox gridCheck = new JCheckBox("Mřížka");
+
+        // výchozí stavy: mřížka vypnutá => gridSpinner a snap disabled
+        gridSpinner.setEnabled(false);
+        snapCheck.setEnabled(false);
 
         gridSpinner.addChangeListener(e ->
                 drawPanel.setGridStep((Integer) gridSpinner.getValue())
         );
-
-        // Přidání mřížky-----
-        JCheckBox gridCheck = new JCheckBox("Mřížka");
-        topPanel.add(gridCheck);
 
         gridCheck.addActionListener(e -> {
             boolean on = gridCheck.isSelected();
@@ -131,46 +112,70 @@ public class Malovani extends JFrame {
             }
         });
 
-
-        setVisible(true);
-
-    //--------------------------------------------------------------------
-    // inicializace stavů mřížky a snapu
-        // výchozí stav: mřížka vypnutá
-
-
-        // výchozí stav: snap jde použít jen když je grid zapnutý
-        snapCheck.setEnabled(gridCheck.isSelected());
-
         // když uživatel klikne na Snap
         snapCheck.addActionListener(e ->
                 drawPanel.setSnapToGrid(snapCheck.isSelected())
         );
 
-    //--------------------------------------------------------------------
-
+        // ---------- Akční tlačítka ----------
         JButton undoButton = new JButton("Undo");
-        topPanel.add(undoButton);
+        JButton saveButton = new JButton("Uložit PNG");
+        JButton clearButton = new JButton("Vymazat");
+
         undoButton.addActionListener(e -> drawPanel.undo());
 
-        //----------------------------------------------------
+        clearButton.addActionListener(e -> drawPanel.clear());
 
         // ------------------- Přidání ukládání do PNG souboru -----------------------
-        JButton saveButton = new JButton("Uložit PNG");
-        topPanel.add(saveButton);
-
         saveButton.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogTitle("Uložit jako PNG");
-            chooser.setSelectedFile(new java.io.File("kruznicomat.png"));
+            chooser.setSelectedFile(new File("kruznicomat.png"));
 
             int result = chooser.showSaveDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
-                java.io.File file = chooser.getSelectedFile();
+                File file = chooser.getSelectedFile();
                 drawPanel.saveToPng(file);
             }
         });
-//----------------------------------------------------
 
+        // ---------- Pravý panel: mřížka + akce ----------
+        rightPanel.add(gridCheck);
+
+        rightPanel.add(new JLabel("Krok:"));
+        rightPanel.add(gridSpinner);
+
+        rightPanel.add(snapCheck);
+
+        rightPanel.add(undoButton);
+        rightPanel.add(saveButton);
+        rightPanel.add(clearButton);
+
+
+
+        // ---------- Layout okna ----------
+        setLayout(new BorderLayout());
+        add(topPanel, BorderLayout.NORTH);
+        add(drawPanel, BorderLayout.CENTER);
+
+        // ------------------------------- Přidání zobrazení souřadnic myši -------------------------------------
+        // vytvoření panelu se souřadnicemi
+        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        statusPanel.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 8)); // padding panelu
+
+        // labela se souřadnicemi
+        JLabel coordsLabel = new JLabel("x: -, y: -");
+        statusPanel.add(coordsLabel);
+
+        // přidání panelu do okna
+        add(statusPanel, BorderLayout.SOUTH);
+        drawPanel.setCoordsLabel(coordsLabel);
+        // ------------------------------------------------------------------------------------------------------
+
+        // ---------- Okno ----------
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 }

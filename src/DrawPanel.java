@@ -57,9 +57,6 @@ public class DrawPanel extends JPanel {
         setBackground(Color.WHITE);
         setOpaque(true);
 
-//        ellipses.add(new Ellipse(100, 100, 120, 60)); //zkouška elipsy
-
-
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) { //přidána přepínací logika
@@ -175,9 +172,6 @@ public class DrawPanel extends JPanel {
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if (topFrame instanceof Malovani owner) {
 
-//            String text = owner.diameterField.getText().trim();
-//            int diameter = Integer.parseInt(text);
-
             int diameter = (Integer) owner.sizeSpinner.getValue();
 
             int width = diameter;
@@ -202,8 +196,6 @@ public class DrawPanel extends JPanel {
         SwingUtilities.invokeLater(() -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             if (topFrame instanceof Malovani owner) {
-//                String text = owner.diameterField.getText().trim();
-//                int size = Integer.parseInt(text); //nahrazeno spinnerem
                 int size = (Integer) owner.sizeSpinner.getValue(); // velikost čtverce
 
                 squares.add(new Square(
@@ -239,11 +231,6 @@ public class DrawPanel extends JPanel {
             bezierPoints.clear(); // začneme novou křivku
 
         }
-
-
-
-
-
         repaint();
     }
 
@@ -317,8 +304,6 @@ public class DrawPanel extends JPanel {
                 graphics2D.setColor(c.getColor());
                 graphics2D.drawOval(c.getX(), c.getY(), c.getDiameter(), c.getDiameter());
             }
-//            graphics2D.setColor(c.getColor());
-//            graphics2D.drawOval(c.getX(), c.getY(), c.getDiameter(), c.getDiameter());
         }
 
         //ELIPSA---------------------------------
@@ -331,11 +316,7 @@ public class DrawPanel extends JPanel {
                 graphics2D.setColor(e.getColor());
                 graphics2D.drawOval(e.getX(), e.getY(), e.getWidth(), e.getHeight());
             }
-
-//            graphics2D.setColor(e.getColor());
-//            graphics2D.drawOval(e.getX(), e.getY(), e.getWidth(), e.getHeight());
         }
-
 
         //ČTVEREC---------------------------------
         for (Square s : squares) {
@@ -349,9 +330,6 @@ public class DrawPanel extends JPanel {
                 graphics2D.setColor(s.getColor());
                 graphics2D.drawRect(s.getX(), s.getY(), s.getSize(), s.getSize());
             }
-
-//            graphics2D.setColor(s.getColor());
-//            graphics2D.drawRect(s.getX(), s.getY(), s.getSize(), s.getSize());
         }
 
         //BEZIEROVY KŘIVKY---------------------------------
@@ -372,16 +350,13 @@ public class DrawPanel extends JPanel {
                 prev = cur;
             }
         }
-        // pomocné čáry mezi řídicími body Bézierových křivek---------------------------------
+// ------------pomocné čáry mezi řídicími body Bézierových křivek---------------------------------
         graphics2D.setColor(Color.LIGHT_GRAY);
         for (BezierCurve b : beziers) {
             graphics2D.drawLine(b.getP0().x, b.getP0().y, b.getP1().x, b.getP1().y); //nahrazeno gettery
             graphics2D.drawLine(b.getP1().x, b.getP1().y, b.getP2().x, b.getP2().y);
             graphics2D.drawLine(b.getP2().x, b.getP2().y, b.getP3().x, b.getP3().y);
         }
-        //--------------------------------------------------
-
-
 
         // ---- náhled objektu pod myší ----
         if (mousePos != null) {
@@ -445,7 +420,7 @@ public class DrawPanel extends JPanel {
         }
         return 50;
     }
-//--------------------------------------------------
+
 //--------------------ZOBRAZENÍ MŘÍŽKY-----------------------
     private int gridStep = 10;
     public void setGridStep(int step) {
@@ -460,8 +435,7 @@ public class DrawPanel extends JPanel {
         repaint();
     }
 
-//--------------------------------------------------
-//---------funkce snap to grid-----------------------
+//-------------------funkce snap to grid-----------------------
     private boolean snapToGrid  = false;
 
     public void setSnapToGrid(boolean snap) {
@@ -474,8 +448,6 @@ public class DrawPanel extends JPanel {
         return Math.round(v / (float) gridStep) * gridStep;
     }
 
-
-    //--------------------------------------------------
     //--------------------UNDO-----------------------
     public void undo() {
         if (!undoStack.isEmpty()) {
@@ -483,7 +455,7 @@ public class DrawPanel extends JPanel {
             repaint();
         }
     }
-    //--------------------------------------------------
+
 //--------------------ULOŽENÍ DO PNG-----------------------
     public void saveToPng(File file) {
         BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
