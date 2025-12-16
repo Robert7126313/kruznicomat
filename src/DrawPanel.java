@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 // panel který bude uchovávat nakreslené kružnice
@@ -17,6 +19,8 @@ public class DrawPanel extends JPanel {
     private final List<Ellipse> ellipses = new ArrayList<>();
     private final List<Square> squares = new ArrayList<>();
     private final List<BezierCurve> beziers = new ArrayList<>();
+
+    private final Deque<Runnable> undoStack = new ArrayDeque<>();
 
     private Point mousePos = null;   // poslední pozice myši v panelu
     private JLabel coordsLabel;
@@ -155,6 +159,8 @@ public class DrawPanel extends JPanel {
 
                 ));
 
+                undoStack.push(() -> { if (!circles.isEmpty()) circles.removeLast(); });
+
                 repaint(); // překreslí panel
             }
         });
@@ -181,6 +187,7 @@ public class DrawPanel extends JPanel {
                     currentColor,
                     filled
             ));
+            undoStack.push(() -> { if (!ellipses.isEmpty()) ellipses.removeLast(); }); // přidá undo akci pro elipsu
 
             repaint(); // překreslí panel
         }
@@ -195,7 +202,6 @@ public class DrawPanel extends JPanel {
 //                int size = Integer.parseInt(text); //nahrazeno spinnerem
                 int size = (Integer) owner.sizeSpinner.getValue(); // velikost čtverce
 
-
                 squares.add(new Square(
                         x - size / 2,
                         y - size / 2,
@@ -203,6 +209,10 @@ public class DrawPanel extends JPanel {
                         currentColor,
                         filled
                 ));
+
+                undoStack.push(() -> { if (!squares.isEmpty()) squares.remove(squares.size() - 1); }); // přidá undo akci pro čtverec
+
+
                 repaint(); // překreslí panel
             }
         });
@@ -220,8 +230,15 @@ public class DrawPanel extends JPanel {
                     bezierPoints.get(3),
                     currentColor
             ));
+            undoStack.push(() -> { if (!beziers.isEmpty()) beziers.remove(beziers.size() - 1); }); // přidá undo akci pro Bézierovu křivku
+
             bezierPoints.clear(); // začneme novou křivku
+
         }
+
+
+
+
 
         repaint();
     }
@@ -452,6 +469,18 @@ public class DrawPanel extends JPanel {
         if (!showGrid || !snapToGrid || gridStep <= 1) return v;
         return Math.round(v / (float) gridStep) * gridStep;
     }
+
+
+    //--------------------------------------------------
+    //--------------------UNDO-----------------------
+    public void undo() {
+        if (!undoStack.isEmpty()) {
+            undoStack.pop().run();
+            repaint();
+        }
+    }
+    //--------------------------------------------------
+
 
 
 

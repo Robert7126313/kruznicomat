@@ -135,7 +135,8 @@ public class Malovani extends JFrame {
         setVisible(true);
 
     //--------------------------------------------------------------------
-
+    // inicializace stavů mřížky a snapu
+        // výchozí stav: mřížka vypnutá
 
 
         // výchozí stav: snap jde použít jen když je grid zapnutý
@@ -146,7 +147,13 @@ public class Malovani extends JFrame {
                 drawPanel.setSnapToGrid(snapCheck.isSelected())
         );
 
+    //--------------------------------------------------------------------
 
+        JButton undoButton = new JButton("Undo");
+        topPanel.add(undoButton);
+        undoButton.addActionListener(e -> drawPanel.undo());
+
+        //----------------------------------------------------
 
     }
 }

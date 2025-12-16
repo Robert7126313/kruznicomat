@@ -1,7 +1,7 @@
 # Možná a zajímavá rozšíření
 1. Výběr barvy kružnice **HOTOVO** + náhled barvy
 2. SpinBox na velikost kružnice **HOTOVO**
-3. Funkce zpět
+3. Funkce zpět **HOTOVO (Tlačítko UNDO)** - odebere poslední objekt 
 4. Když klepnu pravým tlačítkem myši, mám kružnici vyplněnou **HOTOVO** 
 5. Při drag-and-drop nastavit velikost kružnice
 6. Přidat další nástroje
