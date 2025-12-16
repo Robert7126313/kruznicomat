@@ -103,6 +103,10 @@ public class Malovani extends JFrame {
         SpinnerNumberModel gridModel = new SpinnerNumberModel(10, 1, 200, 1);
         JSpinner gridSpinner = new JSpinner(gridModel);
 
+        // Snap to grid
+        JCheckBox snapCheck = new JCheckBox("Snap");
+        topPanel.add(snapCheck);
+
         topPanel.add(new JLabel("Krok mřížky:"));
         topPanel.add(gridSpinner);
 
@@ -114,18 +118,34 @@ public class Malovani extends JFrame {
         JCheckBox gridCheck = new JCheckBox("Mřížka");
         topPanel.add(gridCheck);
 
-        gridCheck.addActionListener(e -> drawPanel.setShowGrid(gridCheck.isSelected()));
-        gridSpinner.setEnabled(gridCheck.isSelected());
-
         gridCheck.addActionListener(e -> {
             boolean on = gridCheck.isSelected();
             drawPanel.setShowGrid(on);
-            gridSpinner.setEnabled(on); // povolení/zakázání spinneru podle zaškrtnutí
+
+            gridSpinner.setEnabled(on);
+            snapCheck.setEnabled(on);
+
+            if (!on) {
+                snapCheck.setSelected(false);
+                drawPanel.setSnapToGrid(false);
+            }
         });
+
 
         setVisible(true);
 
     //--------------------------------------------------------------------
+
+
+
+        // výchozí stav: snap jde použít jen když je grid zapnutý
+        snapCheck.setEnabled(gridCheck.isSelected());
+
+        // když uživatel klikne na Snap
+        snapCheck.addActionListener(e ->
+                drawPanel.setSnapToGrid(snapCheck.isSelected())
+        );
+
 
 
     }

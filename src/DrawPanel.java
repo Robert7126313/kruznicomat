@@ -36,14 +36,14 @@ public class DrawPanel extends JPanel {
     }
     //----------------------------------------------
 
-    //-------- dočasně rozpracované body (0–4 body)----------------
+    //------------------ Bézierovy křivky ----------------
     private final List<Point> bezierPoints = new ArrayList<>();
 
     private Tool currentTool = Tool.CIRCLE; //defaultní nástroj/geometrický obrazec
 
     public void setTool(Tool tool) {
         this.currentTool = tool;
-    }
+    } // nastavení aktuálního nástroje
 
     public DrawPanel(){
         setBackground(Color.WHITE);
@@ -56,17 +56,17 @@ public class DrawPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) { //přidána přepínací logika
                 boolean filled = SwingUtilities.isRightMouseButton(e); // pravé tlačítko pro vyplněné obrazce
+
+                int x = snap(e.getX());
+                int y = snap(e.getY());
+
                 switch (currentTool) {
-                    case CIRCLE -> addCircle(e.getX(), e.getY(),filled);
-                    case ELLIPSE -> addEllipse(e.getX(), e.getY(),filled);
-                    case SQUARE -> addSquare(e.getX(), e.getY(), filled);
-                    case BEZIER -> addBezierPoint(e.getX(), e.getY());
+                    case CIRCLE -> addCircle(x, y, filled);
+                    case ELLIPSE -> addEllipse(x, y, filled);
+                    case SQUARE -> addSquare(x, y, filled);
+                    case BEZIER -> addBezierPoint(x, y);
                 }
 //                addCircle(e.getX(),e.getY());
-
-
-
-
             }
 
         });
@@ -75,10 +75,13 @@ public class DrawPanel extends JPanel {
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                mousePos = e.getPoint();
+                int x = snap(e.getX());
+                int y = snap(e.getY());
+
+                mousePos = new Point(x, y);
 
                 if (coordsLabel != null) {
-                    coordsLabel.setText("x: " + mousePos.x + ", y: " + mousePos.y);
+                    coordsLabel.setText("x: " + x + ", y: " + y);
                 }
 
                 repaint();
@@ -87,10 +90,13 @@ public class DrawPanel extends JPanel {
         // přetažení myši-------------
             @Override
             public void mouseDragged(MouseEvent e) {
-                mousePos = e.getPoint();
+                int x = snap(e.getX());
+                int y = snap(e.getY());
+
+                mousePos = new Point(x, y);
 
                 if (coordsLabel != null) {
-                    coordsLabel.setText("x: " + mousePos.x + ", y: " + mousePos.y);
+                    coordsLabel.setText("x: " + x + ", y: " + y);
                 }
 
 
@@ -434,6 +440,19 @@ public class DrawPanel extends JPanel {
     }
 
 //--------------------------------------------------
+//---------funkce snap to grid-----------------------
+    private boolean snapToGrid  = false;
+
+    public void setSnapToGrid(boolean snap) {
+        this.snapToGrid = snap;
+        repaint();
+    }
+
+    private int snap(int v) {
+        if (!showGrid || !snapToGrid || gridStep <= 1) return v;
+        return Math.round(v / (float) gridStep) * gridStep;
+    }
+
 
 
 }

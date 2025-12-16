@@ -18,7 +18,7 @@
 10. Umožnit v nastavení nastavit krok vodící mřížky,
 
 # Všeobecné rozšíření
-1. Zachytávání na mřížku (snap-to-grid) – objekty se zarovnají na nejbližší grid. 
+1. Zachytávání na mřížku (snap-to-grid) – objekty se zarovnají na nejbližší grid. **HOTOVO**
 2. Zobrazování náhledového „ducha“ objektu při kreslení (preview tvaru, než se potvrdí). **HOTOVO**
 3. Výběr objektu a jeho následná editace – změna velikosti, barvy, posunutí.
 4. Skupinové označení objektů – výběrový rámeček (drag to select).
