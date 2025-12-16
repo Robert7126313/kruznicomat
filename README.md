@@ -14,7 +14,7 @@
 
 # Radim doplní
 8. Při pohybu myši zobrazovat souřadnice **HOTOVO**
-9. Možnost zapnout a vypnout vodící mřížku (třeba po 10px)
+9. Možnost zapnout a vypnout vodící mřížku (třeba po 10px) **HOTOVO**
 10. Umožnit v nastavení nastavit krok vodící mřížky,
 
 # Všeobecné rozšíření

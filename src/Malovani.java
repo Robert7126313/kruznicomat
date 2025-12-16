@@ -99,16 +99,7 @@ public class Malovani extends JFrame {
         drawPanel.setCoordsLabel(coordsLabel);
 
 //--------------------------------------------------------------------
-// Přidání mřížky
-        JCheckBox gridCheck = new JCheckBox("Mřížka");
-        topPanel.add(gridCheck);
-
-        gridCheck.addActionListener(e -> drawPanel.setShowGrid(gridCheck.isSelected()));
-
-    setVisible(true);
-
-    //--------------------------------------------------------------------
-        // Přidání nastavení kroku mřížky
+// Přidání nastavení kroku mřížky a zobrazení mřížky
         SpinnerNumberModel gridModel = new SpinnerNumberModel(10, 1, 200, 1);
         JSpinner gridSpinner = new JSpinner(gridModel);
 
@@ -118,7 +109,24 @@ public class Malovani extends JFrame {
         gridSpinner.addChangeListener(e ->
                 drawPanel.setGridStep((Integer) gridSpinner.getValue())
         );
-        //--------------------------------------------------------------------
+
+        // Přidání mřížky-----
+        JCheckBox gridCheck = new JCheckBox("Mřížka");
+        topPanel.add(gridCheck);
+
+        gridCheck.addActionListener(e -> drawPanel.setShowGrid(gridCheck.isSelected()));
+        gridSpinner.setEnabled(gridCheck.isSelected());
+
+        gridCheck.addActionListener(e -> {
+            boolean on = gridCheck.isSelected();
+            drawPanel.setShowGrid(on);
+            gridSpinner.setEnabled(on); // povolení/zakázání spinneru podle zaškrtnutí
+        });
+
+        setVisible(true);
+
+    //--------------------------------------------------------------------
+
 
     }
 }
