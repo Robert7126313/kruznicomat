@@ -10,12 +10,12 @@
    3. Křivky – Beziérovy spliny. **HOTOVO**
    4. Nástroj pro text – vložení textu do obrázku.
    5. Nástroj gumy (pro pixelový i vektorový styl, podle typu tvé aplikace).
-7. Ukládání obrázku
+7. Ukládání obrázku **HOTOVO (PNG)**
 
 # Radim doplní
 8. Při pohybu myši zobrazovat souřadnice **HOTOVO**
 9. Možnost zapnout a vypnout vodící mřížku (třeba po 10px) **HOTOVO**
-10. Umožnit v nastavení nastavit krok vodící mřížky,
+10. Umožnit v nastavení nastavit krok vodící mřížky, **HOTOVO**
 
 # Všeobecné rozšíření
 1. Zachytávání na mřížku (snap-to-grid) – objekty se zarovnají na nejbližší grid. **HOTOVO**

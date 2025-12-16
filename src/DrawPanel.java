@@ -3,10 +3,14 @@ import shapes.Circle;
 import shapes.Ellipse;
 import shapes.Square;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -480,8 +484,33 @@ public class DrawPanel extends JPanel {
         }
     }
     //--------------------------------------------------
+//--------------------ULOŽENÍ DO PNG-----------------------
+    public void saveToPng(File file) {
+        BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
 
+        // volitelně: lepší kvalita čar/textu
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // vykresli panel do obrázku
+        this.printAll(g2);
+        g2.dispose();
+
+        // zajisti .png příponu
+        String path = file.getAbsolutePath();
+        if (!path.toLowerCase().endsWith(".png")) {
+            file = new File(path + ".png");
+        }
+
+        try {
+            ImageIO.write(img, "png", file);
+            JOptionPane.showMessageDialog(this, "Uloženo: " + file.getName());
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Chyba při ukládání: " + ex.getMessage(),
+                    "Chyba", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+//--------------------------------------------------
 
 
 }

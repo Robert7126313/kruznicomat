@@ -155,5 +155,22 @@ public class Malovani extends JFrame {
 
         //----------------------------------------------------
 
+        // ------------------- Přidání ukládání do PNG souboru -----------------------
+        JButton saveButton = new JButton("Uložit PNG");
+        topPanel.add(saveButton);
+
+        saveButton.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setDialogTitle("Uložit jako PNG");
+            chooser.setSelectedFile(new java.io.File("kruznicomat.png"));
+
+            int result = chooser.showSaveDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                java.io.File file = chooser.getSelectedFile();
+                drawPanel.saveToPng(file);
+            }
+        });
+//----------------------------------------------------
+
     }
 }
