@@ -55,8 +55,9 @@ public class DrawPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) { //přidána přepínací logika
+                boolean filled = SwingUtilities.isRightMouseButton(e); // pravé tlačítko pro vyplněné obrazce
                 switch (currentTool) {
-                    case CIRCLE -> addCircle(e.getX(), e.getY());
+                    case CIRCLE -> addCircle(e.getX(), e.getY(),filled);
                     case ELLIPSE -> addEllipse(e.getX(), e.getY());
                     case SQUARE -> addSquare(e.getX(), e.getY());
                     case BEZIER -> addBezierPoint(e.getX(), e.getY());
@@ -121,12 +122,14 @@ public class DrawPanel extends JPanel {
     //----- metody pro přidání jednotlivých obrazců -----
     /**
      * Přidá kružnici na zadanou pozici. Hodnota průměru bude načtena z okna
-     * @param x souřadnice X kliknutí
-     * @param y souřadnice Y kliknutí
+     *
+     * @param x      souřadnice X kliknutí
+     * @param y      souřadnice Y kliknutí
+     * @param filled
      */
 
     // Přidá kružnici na zadanou pozici. Hodnota velikosti bude načtena z okna
-    private void addCircle(int x, int y) {
+    private void addCircle(int x, int y, boolean filled) {
         SwingUtilities.invokeLater(() ->{
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             if(topFrame instanceof Malovani owner){
@@ -141,7 +144,9 @@ public class DrawPanel extends JPanel {
                         x - diameter / 2,
                         y-diameter / 2,
                         diameter,
-                        currentColor
+                        currentColor,
+                        filled // nastaví, zda je kruh vyplněný
+
                 ));
 
                 repaint(); // překreslí panel
@@ -276,8 +281,15 @@ public class DrawPanel extends JPanel {
 
         //KRUŽNICE---------------------------------
         for (Circle c: circles) {
-            graphics2D.setColor(c.getColor());
-            graphics2D.drawOval(c.getX(), c.getY(), c.getDiameter(), c.getDiameter());
+            if (c.isFilled()) {
+                graphics2D.setColor(c.getColor());
+                graphics2D.fillOval(c.getX(), c.getY(), c.getDiameter(), c.getDiameter());
+            } else {
+                graphics2D.setColor(c.getColor());
+                graphics2D.drawOval(c.getX(), c.getY(), c.getDiameter(), c.getDiameter());
+            }
+//            graphics2D.setColor(c.getColor());
+//            graphics2D.drawOval(c.getX(), c.getY(), c.getDiameter(), c.getDiameter());
         }
 
         //ELIPSA---------------------------------

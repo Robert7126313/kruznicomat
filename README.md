@@ -2,7 +2,7 @@
 1. Výběr barvy kružnice **HOTOVO** + náhled barvy
 2. SpinBox na velikost kružnice **HOTOVO**
 3. Funkce zpět
-4. Když klepnu pravým tlačítkem myši, mám kružnici vyplněnou
+4. Když klepnu pravým tlačítkem myši, mám kružnici vyplněnou **HOTOVO pro kružnici** 
 5. Při drag-and-drop nastavit velikost kružnice
 6. Přidat další nástroje
    1. Elipsa (nejen kružnice). **HOTOVO**
